@@ -21,6 +21,12 @@ export function useGamePolling(roomId, token, tokenType = "playerToken") {
 
       if (!response.ok) {
         if (response.status === 404) {
+          // Room not found - likely server restarted and lost in-memory data
+          // Clear localStorage to allow user to create a new room
+          if (typeof window !== 'undefined' && localStorage.getItem('hostRoom')) {
+            localStorage.removeItem('hostRoom')
+            window.location.reload()
+          }
           throw new Error("Game not found")
         } else if (response.status === 401) {
           throw new Error("Invalid token")

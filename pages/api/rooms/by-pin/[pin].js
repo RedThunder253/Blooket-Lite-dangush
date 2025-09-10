@@ -1,6 +1,6 @@
 import { rooms } from "../../../../lib/storage"
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" })
   }
@@ -9,7 +9,8 @@ export default function handler(req, res) {
 
   try {
     // Find room by PIN
-    const room = Array.from(rooms.values()).find((r) => r.pin === pin)
+    const allRooms = await rooms.values()
+    const room = allRooms.find((r) => r.pin === pin)
 
     if (!room) {
       return res.status(404).json({ error: "Room not found" })
