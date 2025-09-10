@@ -1,7 +1,7 @@
 import { rooms, generatePin, generateId } from "../../../lib/storage"
 import { DEFAULT_QUESTIONS } from "../../../lib/questions"
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" })
   }
@@ -12,12 +12,10 @@ export default async function handler(req, res) {
     // Generate unique PIN (retry if collision)
     let pin
     let attempts = 0
-    let existingRooms
     do {
       pin = generatePin()
       attempts++
-      existingRooms = await rooms.values()
-    } while (existingRooms.some((room) => room.pin === pin) && attempts < 10)
+    } while (Array.from(rooms.values()).some((room) => room.pin === pin) && attempts < 10)
 
     if (attempts >= 10) {
       return res.status(500).json({ error: "Failed to generate unique PIN" })
@@ -37,7 +35,7 @@ export default async function handler(req, res) {
       createdAt: Date.now(),
     }
 
-    await rooms.set(roomId, room)
+    rooms.set(roomId, room)
 
     res.status(201).json({
       roomId,

@@ -1,6 +1,6 @@
 import { rooms, generateId } from "../../../../lib/storage"
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" })
   }
@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const { name } = req.body
 
   try {
-    const room = await rooms.get(roomId)
+    const room = rooms.get(roomId)
     if (!room) {
       return res.status(404).json({ error: "Room not found" })
     }
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     room.players.push(player)
     
     // Force save the room since we modified its properties
-    await rooms.set(roomId, room)
+    rooms.set(roomId, room)
 
     res.status(201).json({
       playerId,
