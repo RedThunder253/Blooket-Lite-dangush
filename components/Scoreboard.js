@@ -14,8 +14,11 @@ export default function Scoreboard({ scoreboard = [] }) {
           </div>
         ) : (
           <div className="space-y-3">
-            {scoreboard.map((player, index) => {
-              const isWinner = index === 0
+            {/* Mape each player in the scoreboard */}
+            {scoreboard.______((_______, index) => {
+              // The first player is the winner
+              // check if the index is 0, if it is, isWinner should be true
+              const isWinner = _________________
               const isPodium = index < 3
 
               return (
@@ -25,8 +28,12 @@ export default function Scoreboard({ scoreboard = [] }) {
                     isWinner
                       ? "bg-yellow-100 border-yellow-400"
                       : isPodium
-                        ? "bg-blue-50 border-blue-200"
-                        : "bg-gray-50 border-gray-200"
+                        // Show a blue color border if the player is on the podium
+                        // Hint, if we want to change the background, we do bg-blue-500.
+                        // Now how do we change the border?
+                        ? "bg-blue-50 ______________"
+                        // Show a gray color border if the player is not on the podium
+                        : "bg-gray-50 ______________"
                   }`}
                 >
                   <div className="flex items-center justify-between">

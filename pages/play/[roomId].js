@@ -153,7 +153,8 @@ export default function Play() {
         )
 
       case "end":
-        return <Scoreboard scoreboard={gameState.scoreboard} />
+        // If we are at the end of the game, show the Scoreboard component
+        return <_____________ scoreboard={gameState.scoreboard} />
 
       default:
         return (
