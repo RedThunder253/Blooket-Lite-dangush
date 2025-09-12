@@ -27,8 +27,10 @@ export default function Host() {
     setCreateError(null)
 
     try {
-      const response = await fetch("/api/rooms", {
-        method: "POST",
+      // what function do we use to make a http request to the server?
+      const response = await ________("/api/rooms", {
+        // What method should the http request be if we want the server to *write* data?
+        method: "________",
         headers: { "Content-Type": "application/json" },
       })
 
@@ -38,7 +40,8 @@ export default function Host() {
       }
 
       const data = await response.json()
-      setRoom(data)
+      // set the `room` state to the data we received from the server
+      ______(data)
 
       // Store room info in localStorage for recovery
       localStorage.setItem("hostRoom", JSON.stringify(data))
@@ -74,6 +77,7 @@ export default function Host() {
     localStorage.removeItem("hostRoom")
   }
 
+  // If the room has not been set yet, show the "Host a Game" option
   if (!room) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
@@ -96,6 +100,7 @@ export default function Host() {
     )
   }
 
+  // If a room has been created, show the Host controls instead
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-4">
       <div className="max-w-4xl mx-auto space-y-6">
