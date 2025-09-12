@@ -27,7 +27,7 @@ export default function Join() {
     try {
       // First, find the room by PIN
       // Let's make an HTTP request to /api/rooms/by-pin/ and give the pin number
-      const roomResponse = await ______(`/api/rooms/by-pin/${pin}`)
+      const roomResponse = await fetch(`/api/rooms/by-pin/${pin}`)
       if (!roomResponse.ok) {
         throw new Error("Invalid PIN")
       }
@@ -35,12 +35,12 @@ export default function Join() {
       // *Destructure* the `roomId` field from response
       // the response is a javascript object which looks like this:
       // { roomId: room.id }
-      const ________ = await roomResponse.json()
+      const { roomId } = await roomResponse.json()
 
       // Then join the room
       const joinResponse = await fetch(`/api/rooms/${roomId}/players`, {
         // What should the HTTP request method be? We want the server to write our name in its database
-        method: "_______",
+        method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name.trim() }),
       })
@@ -50,7 +50,7 @@ export default function Join() {
       }
 
       // Destructure the `playerId` and `playerToken` from the response, which is an object
-      const _____________ = await joinResponse.json()
+      const {playerId,playerToken} = await joinResponse.json()
 
       // Store player token in localStorage
       localStorage.setItem("playerToken", playerToken)
@@ -74,7 +74,7 @@ export default function Join() {
         </CardHeader>
         <CardContent>
           {/* Which function should we call to join the game once the form has been submitted? */}
-          <form onSubmit={________} className="space-y-4">
+          <form onSubmit={joinGame} className="space-y-4">
             <div>
               <Label htmlFor="name">Your Name</Label>
               <Input
@@ -82,7 +82,7 @@ export default function Join() {
                 type="text"
                 value={name}
                 // What function do we call to set the name of the player?
-                onChange={(e) => ________(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your name"
                 maxLength={20}
                 autoFocus
@@ -95,7 +95,7 @@ export default function Join() {
                 type="text"
                 value={pin}
                 // What function do we call to set the pin of the player?
-                onChange={(e) => _________(e.target.value)}
+                onChange={(e) => setPin(e.target.value)}
                 placeholder="Enter 4-digit PIN"
                 maxLength={5}
                 pattern="[0-9]*"
@@ -104,10 +104,10 @@ export default function Join() {
             </div>
             {error && <div className="text-red-600 text-sm text-center">{error}</div>}
                             {/* How do we make this button *disabled* if the `loading` state is true? */}
-            <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" ___________={___________}>
+            <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disable={loading}>
               {/* If `loading` is true, then show the text "Joining ...", if it's false, then show the text "Join Game" */}
               {/* HINT: Use the ternary operator!   __ ? __  : __  */}
-              {________________________}
+              {loading ? "Joining" : "Join Game"}
             </Button>
           </form>
         </CardContent>

@@ -28,9 +28,9 @@ export default function Host() {
 
     try {
       // what function do we use to make a http request to the server?
-      const response = await ________("/api/rooms", {
+      const response = await fetch("/api/rooms", {
         // What method should the http request be if we want the server to *write* data?
-        method: "________",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
       })
 
@@ -41,7 +41,7 @@ export default function Host() {
 
       const data = await response.json()
       // set the `room` state to the data we received from the server
-      ______(data)
+      setRoom(data)
 
       // Store room info in localStorage for recovery
       localStorage.setItem("hostRoom", JSON.stringify(data))

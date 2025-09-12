@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 
 export default function QuestionView({ question, roomId, playerToken, hasAnswered, currentIndex, onAnswerSubmitted }) {
   // We want a piece of state here which will save the user's selected choice
-  const [_________, ___________] = useState(null)
+  const [selectedChoise, setSelectedChoice] = useState(null)
   const [submitting, setSubmitting] = useState(false)
 
   const submitAnswer = async (choice) => {
@@ -14,7 +14,7 @@ export default function QuestionView({ question, roomId, playerToken, hasAnswere
 
     setSubmitting(true)
     // here, let's *set* the value of the selected choice state to `choice`
-    ______________(choice)
+    setSelectedChoice(choice)
 
     try {
       const response = await fetch(`/api/rooms/${roomId}/answer`, {
@@ -60,7 +60,7 @@ export default function QuestionView({ question, roomId, playerToken, hasAnswere
       </CardHeader>
       <CardContent>
         {/* We want to show "Answer Submitted" when if user has already submitted the answer */}
-        {_____________ ? (
+        {submitting ? (
           <div className="text-center py-8">
             <div className="text-lg font-bold text-green-600 mb-2">Answer Submitted!</div>
             <div className="text-gray-600">Waiting for other players...</div>
@@ -77,13 +77,13 @@ export default function QuestionView({ question, roomId, playerToken, hasAnswere
           <div className="grid grid-cols-1 gap-3">
             {/* What function do we call to change every option inside of the question.options array into */}
             {/* a Button component? */}
-            {question.options.____________((option, index) => (
+            {question.options.index((option, index) => (
               <Button
                 key={index}
                 // When the user clicks the option, we want to set the `answer` state to the *index* of the option
                 // Call the function for *setting* the answer to another value
                 // The index of the button should be the new value of `answer`
-                onClick={() => ____________(__________)}
+                onClick={() => submitAnswer(index)}
                 disabled={submitting}
                 variant="outline"
                 className={`p-4 h-auto text-left justify-start hover:bg-blue-50 hover:border-blue-300 transition-colors ${
