@@ -26,15 +26,21 @@ export default function Join() {
 
     try {
       // First, find the room by PIN
-      const roomResponse = await fetch(`/api/rooms/by-pin/${pin}`)
+      // Let's make an HTTP request to /api/rooms/by-pin/ and give the pin number
+      const roomResponse = await ______(`/api/rooms/by-pin/${pin}`)
       if (!roomResponse.ok) {
         throw new Error("Invalid PIN")
       }
-      const { roomId } = await roomResponse.json()
+      
+      // *Destructure* the `roomId` field from response
+      // the response is a javascript object which looks like this:
+      // { roomId: room.id }
+      const ________ = await roomResponse.json()
 
       // Then join the room
       const joinResponse = await fetch(`/api/rooms/${roomId}/players`, {
-        method: "POST",
+        // What should the HTTP request method be? We want the server to write our name in its database
+        method: "_______",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name.trim() }),
       })
@@ -43,14 +49,15 @@ export default function Join() {
         throw new Error("Failed to join game")
       }
 
-      const { playerId, playerToken } = await joinResponse.json()
+      // Destructure the `playerId` and `playerToken` from the response, which is an object
+      const _____________ = await joinResponse.json()
 
       // Store player token in localStorage
       localStorage.setItem("playerToken", playerToken)
       localStorage.setItem("playerId", playerId)
       localStorage.setItem("roomId", roomId)
 
-      // Redirect to game
+      // Redirect to game by changing the page the user is on
       router.push(`/play/${roomId}`)
     } catch (error) {
       setError(error.message)
@@ -66,14 +73,16 @@ export default function Join() {
           <CardTitle className="text-2xl font-bold text-purple-600">Join a Game</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={joinGame} className="space-y-4">
+          {/* Which function should we call to join the game once the form has been submitted? */}
+          <form onSubmit={________} className="space-y-4">
             <div>
               <Label htmlFor="name">Your Name</Label>
               <Input
                 id="name"
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                // What function do we call to set the name of the player?
+                onChange={(e) => ________(e.target.value)}
                 placeholder="Enter your name"
                 maxLength={20}
                 autoFocus
@@ -85,7 +94,8 @@ export default function Join() {
                 id="pin"
                 type="text"
                 value={pin}
-                onChange={(e) => setPin(e.target.value)}
+                // What function do we call to set the pin of the player?
+                onChange={(e) => _________(e.target.value)}
                 placeholder="Enter 4-digit PIN"
                 maxLength={5}
                 pattern="[0-9]*"
@@ -93,8 +103,11 @@ export default function Join() {
               />
             </div>
             {error && <div className="text-red-600 text-sm text-center">{error}</div>}
-            <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={loading}>
-              {loading ? "Joining..." : "Join Game"}
+                            {/* How do we make this button *disabled* if the `loading` state is true? */}
+            <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" ___________={___________}>
+              {/* If `loading` is true, then show the text "Joining ...", if it's false, then show the text "Join Game" */}
+              {/* HINT: Use the ternary operator!   __ ? __  : __  */}
+              {________________________}
             </Button>
           </form>
         </CardContent>
